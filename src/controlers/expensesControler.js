@@ -37,11 +37,20 @@ const getOne = (req, res) => {
 const add = (req, res) => {
   const { userId, spentAt, title, amount, category, note } = req.body;
 
-  if (!userId || !spentAt || !title || !amount || !category || !note) {
+  const normalaizedId = Number(userId);
+
+  if (
+    Number.isNaN(normalaizedId) ||
+    !spentAt ||
+    !title ||
+    !amount ||
+    !category ||
+    !note
+  ) {
     return res.status(400).send('Bad request');
   }
 
-  const user = usersServices.getOne(Number(userId));
+  const user = usersServices.getOne(normalaizedId);
 
   if (!user) {
     return res.status(404).send('User not found');

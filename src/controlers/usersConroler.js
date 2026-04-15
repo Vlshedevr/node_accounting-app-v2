@@ -49,7 +49,7 @@ const remove = (req, res) => {
     return;
   }
 
-  userServices.remove(Number(id));
+  userServices.remove(normalaizedId);
 
   res.sendStatus(204);
 };
