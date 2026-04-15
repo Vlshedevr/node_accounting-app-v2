@@ -47,7 +47,7 @@ const remove = (req, res) => {
 
   userServices.remove(Number(id));
 
-  res.status(204).send(id);
+  res.sendStatus(204);
 };
 
 const update = (req, res) => {

@@ -38,14 +38,14 @@ const add = (req, res) => {
     return res.status(400).send('Bad request');
   }
 
-  const user = usersServices.getOne(userId);
+  const user = usersServices.getOne(Number(userId));
 
   if (!user) {
-    return res.status(400).send('User not found');
+    return res.status(404).send('User not found');
   }
 
   const newExpense = expensesServices.add({
-    userId,
+    userId: Number(userId),
     title,
     spentAt,
     amount,
