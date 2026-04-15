@@ -6,6 +6,10 @@ const getAll = (req, res) => {
 
   const parsedUserId = userId ? Number(userId) : undefined;
 
+  if (Number.isNaN(parsedUserId)) {
+    return res.status(400).send('Bad request');
+  }
+
   const parsCategories = categories ? categories.split(',') : [];
 
   res
@@ -15,14 +19,13 @@ const getAll = (req, res) => {
 
 const getOne = (req, res) => {
   const { id } = req.params;
+  const normalaizedId = Number(id);
 
-  if (!id) {
-    res.status(400).send('Bad request');
-
-    return;
+  if (Number.isNaN(normalaizedId)) {
+    return res.status(400).send('Bad request');
   }
 
-  const expense = expensesServices.getOne(Number(id));
+  const expense = expensesServices.getOne(normalaizedId);
 
   if (!expense) {
     return res.status(404).send('Not found');
@@ -58,8 +61,13 @@ const add = (req, res) => {
 
 const remove = (req, res) => {
   const { id } = req.params;
+  const normalaizedId = Number(id);
 
-  const toDelete = expensesServices.getOne(Number(id));
+  if (Number.isNaN(normalaizedId)) {
+    return res.status(400).send('Bad request');
+  }
+
+  const toDelete = expensesServices.getOne(normalaizedId);
 
   if (!toDelete) {
     return res.status(404).send('Not found');
@@ -71,12 +79,13 @@ const remove = (req, res) => {
 
 const update = (req, res) => {
   const { id } = req.params;
+  const normalaizedId = Number(id);
 
-  if (!id) {
+  if (Number.isNaN(normalaizedId)) {
     return res.status(400).send('Bad request');
   }
 
-  const toUpdate = expensesServices.getOne(Number(id));
+  const toUpdate = expensesServices.getOne(normalaizedId);
 
   if (!toUpdate) {
     return res.status(404).send('Not found');
@@ -84,7 +93,7 @@ const update = (req, res) => {
 
   res
     .status(200)
-    .send(expensesServices.update({ id: Number(id), ...req.body }));
+    .send(expensesServices.update({ id: normalaizedId, ...req.body }));
 };
 
 module.exports = {

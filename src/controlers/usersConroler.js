@@ -4,14 +4,13 @@ const getAll = (req, res) => res.status(200).send(userServices.get());
 
 const getOne = (req, res) => {
   const { id } = req.params;
+  const normalaizedId = Number(id);
 
-  if (!id) {
-    res.status(400).send('Bad request');
-
-    return;
+  if (Number.isNaN(normalaizedId)) {
+    return res.status(400).send('Bad request');
   }
 
-  const user = userServices.getOne(Number(id));
+  const user = userServices.getOne(normalaizedId);
 
   if (!user) {
     res.status(404).send('Not found');
@@ -36,8 +35,13 @@ const create = (req, res) => {
 
 const remove = (req, res) => {
   const { id } = req.params;
+  const normalaizedId = Number(id);
 
-  const user = userServices.getOne(Number(id));
+  if (Number.isNaN(normalaizedId)) {
+    return res.status(400).send('Bad request');
+  }
+
+  const user = userServices.getOne(normalaizedId);
 
   if (!user) {
     res.status(404).send('Not found');
@@ -56,7 +60,7 @@ const update = (req, res) => {
 
   const parsID = Number(id);
 
-  if (!parsID || !name) {
+  if (Number.isNaN(parsID) || !name) {
     res.status(400).send('Bad request');
 
     return;
