@@ -53,7 +53,7 @@ const add = (req, res) => {
   const user = usersServices.getOne(normalaizedId);
 
   if (!user) {
-    return res.status(404).send('User not found');
+    return res.status(400).send('User not found');
   }
 
   const newExpense = expensesServices.add({
